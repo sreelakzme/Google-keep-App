@@ -1,49 +1,48 @@
-import React from 'react';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import React, { useState } from 'react';
+import Header from './Header';
+import Footer from './Footer';
+import CreateNode from './CreateNode';
+import Note from './Note';
 
-const App= () => {
-    return(
-        <>
-        <h1 className="text-capitalize text-center text-danger">
-            Welcome Sree!!!
-        </h1>
-        <div className="container">
-  <div className="row">
-    <div className="col-sm">
-      <div class="card" >
-  <img src="https://picsum.photos/200/300" class="card-img-top" alt="..." height="200px"/>
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>
-    </div>
-    <div className="col-sm">
-      <div class="card" >
-  <img src="https://picsum.photos/200/301" class="card-img-top" alt="..." height="200px"/>
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>
-    </div>
-    <div className="col-sm">
-      <div class="card" >
-  <img src="https://picsum.photos/201/303" class="card-img-top" alt="..." height="200px"/>
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Go somewhere</a>
-  </div>
-</div>
-    </div>
-  </div>
-</div>
-        </>
-    );
 
+const App = () => {
+
+    const [addItem, setAddItem] = useState([]);
+
+    const addNote = (note) =>{
+        // alert("thingg");
+        setAddItem((prevData)=>{
+            return [...prevData, note];
+        });
+    };
+    const onDelete = (id) =>{
+        setAddItem((oldData)=>
+            oldData.filter((currData, indx) => {
+                return indx !== id;
+            })
+        )
+        
+    };
+
+
+    return(<>
+        <Header/>
+        <CreateNode 
+            passNote={addNote}
+        />
+       
+       { addItem.map((val, index)=>{
+            return <Note
+                key = {index}
+                id = {index}
+                title={val.title}
+                content={val.content}
+                deleteItem ={onDelete}
+            />
+        })}
+        <Footer/>
+
+    </>);
 };
 
 export default App;
